@@ -10,6 +10,10 @@ const postSchema = mongoose.Schema(
       default: new Date(),
     },
     image: String,
+    postOwnerData: {
+      type: Array,
+      default: []
+    },
   },
   {
     timestamps: true,

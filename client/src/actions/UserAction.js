@@ -23,3 +23,10 @@ export const unfollowUser = (id, data)=> async(dispatch)=> {
     dispatch({type: "UNFOLLOW_USER", data: id})
     UserApi.unfollowUser(id, data)
 }
+
+//my own code
+export const getProfileUser = (id) => async(dispatch)=> {
+    console.log("user id from use action is",id)
+   const {data} = await UserApi.getUser(id)
+   dispatch({type: "PROFILE_USER",data})
+}

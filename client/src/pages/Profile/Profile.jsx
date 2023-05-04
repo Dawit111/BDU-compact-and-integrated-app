@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PostSide from "../../components/PostSide/PostSide";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import ProfileLeft from "../../components/ProfileLeft/ProfileLeft";
 import RightSide from "../../components/RightSide/RightSide";
 import "./Profile.css";
+import { getProfileUser } from "../../actions/UserAction";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 const Profile = () => {
+  const dispatch = useDispatch()
+  let { profileUserData } = useSelector((state) => state.authReducer);
+  const {id} = useParams();
+
+  useEffect(()=>{
+   dispatch(getProfileUser(id));
+  },[id])
+
   return (
     <div className="Profile">
-      <ProfileLeft />
+      <ProfileLeft profileUserData={profileUserData}/>
       <div className="Profile-center">
-        <ProfileCard location = 'profilePage'/>
-      <PostSide/>
+        <ProfileCard profUserData = {profileUserData}/>
+      <PostSide location = 'profilePage'/>
       </div>
       <RightSide/>
     </div>

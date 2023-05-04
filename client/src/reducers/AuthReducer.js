@@ -1,4 +1,4 @@
-const authReducer = (state = { authData: null, loading: false, error: false, updateLoading: false },action) => {
+const authReducer = (state = { authData: null, loading: false, error: false, updateLoading: false, profileUserData: null },action) => {
   switch (action.type) {
     case "AUTH_START":
       return {...state, loading: true, error: false };
@@ -33,7 +33,10 @@ const authReducer = (state = { authData: null, loading: false, error: false, upd
     
     case "UNFOLLOW_USER":
       return {...state, authData: {...state.authData, user: {...state.authData.user, following: [...state.authData.user.following.filter((personId)=>personId!==action.data)]} }}
-
+    //my own code
+    case "PROFILE_USER":
+      return {...state, profileUserData: action.data}
+      
       default:
       return state;
   }

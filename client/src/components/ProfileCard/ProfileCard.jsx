@@ -1,34 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfileCard.css";
 import Cover from "../../img/cover.jpg";
 import Profile from "../../img/profileImg.jpg";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-const ProfileCard = ({location}) => {
+import { Link, useParams } from "react-router-dom";
+import {  useSelector } from "react-redux";
+import { createChat } from "../../api/ChatRequests";
+
+const ProfileCard = ({profUserData}) => {
+  const params = useParams();
   const { user } = useSelector((state) => state.authReducer.authData);
   const posts = useSelector((state)=>state.postReducer.posts)
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
+  const profileUserId = params.id;
+  const [profileUser, setProfileUser] = useState({});
+  const [chatStart, setChatStart] = useState({})
+  const makeChatPair = async()=> {
+    const senderAndReceiver = {
+    "senderId": user._id,
+    "receiverId": profileUserId
+    }
+    setChatStart(()=>senderAndReceiver);
+     
+  }
 
+  useEffect(() => {
+    const fetchProfileUser = () => {
+      
+        setProfileUser(profUserData);
+      
+    };
+    fetchProfileUser();
+  }, [profUserData]);
+useEffect(async()=>{
+  await createChat(chatStart)
+},[chatStart])
+  
   return (
     <div className="ProfileCard">
       <div className="ProfileImages">
         <img src={
-            user.coverPicture
-              ? serverPublic + user.coverPicture
+            profileUser.coverPicture
+              ? serverPublic + profileUser.coverPicture
               : serverPublic + "defaultCover.jpg"
           } alt="CoverImage" />
         <img
           src={
-            user.profilePicture
-              ? serverPublic + user.profilePicture
+            profileUser.profilePicture
+              ? serverPublic + profileUser.profilePicture
               : serverPublic + "defaultProfile.png"
           }
           alt="ProfileImage"
         />
       </div>
       <div className="ProfileName">
-        <span>{user.firstname} {user.lastname}</span>
-        <span>{user.worksAt? user.worksAt : 'Write about yourself'}</span>
+        <span>{profileUser.firstname} {profileUser.lastname}</span>
+        <span>{profileUser.worksAt? profileUser.worksAt : 'Write about yourself'}</span>
       </div>
 
       <div className="followStatus">
@@ -44,30 +70,28 @@ const ProfileCard = ({location}) => {
             <span>Following</span>
           </div>
           {/* for profilepage */}
-          {location === "profilePage" && (
             <>
               <div className="vl"></div>
               <div className="follow">
                 <span>{
-                posts.filter((post)=>post.userId === user._id).length
+                posts.filter((post)=>post.userId === profileUser._id).length
                 }</span>
                 <span>Posts</span>
               </div>{" "}
             </>
-          )}
+         
         </div>
         <hr />
       </div>
-
-      {location === "profilePage" ? (
-        ""
-      ) : (
+     {user._id !== profileUser._id && (
         <span>
-          <Link to={`/profile/${user._id}`} style={{ textDecoration: "none", color: "inherit" }}>
-            My Profile
+          <Link to={"../chat"} onClick={()=>makeChatPair()} style={{ textDecoration: "none", color: "inherit" }}>
+            Send Message
           </Link>
         </span>
-      )}
+     )}
+      
+      
     </div>
   );
 };

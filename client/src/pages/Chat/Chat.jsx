@@ -71,7 +71,7 @@ const Chat = () => {
       <div className="Left-side-chat">
         <LogoSearch />
         <div className="Chat-container">
-          <h2>Chats</h2>
+          <h2>Chat</h2>
           <div className="Chat-list">
             {chats.map((chat) => (
               <div

@@ -34,6 +34,7 @@ const PostShare = () => {
     const newPost = {
       userId: user._id,
       desc: desc.current.value,
+      userData: user,
     };
 
     // if there is an image with post

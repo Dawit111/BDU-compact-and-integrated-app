@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import * as UserApi from "../../api/UserRequests.js";
 import { logout } from "../../actions/AuthActions";
 
-const InfoCard = () => {
+const InfoCard = ({profileUserData}) => {
   const dispatch = useDispatch()
   const params = useParams();
   const [modalOpened, setModalOpened] = useState(false);
@@ -22,18 +22,16 @@ const InfoCard = () => {
 
 
   useEffect(() => {
-    const fetchProfileUser = async () => {
+    const fetchProfileUser = () => {
       if (profileUserId === user._id) {
         setProfileUser(user);
       } else {
         console.log("fetching")
-        const profileUser = await UserApi.getUser(profileUserId);
-        setProfileUser(profileUser);
-        console.log(profileUser)
+        setProfileUser(profileUserData.profileUserData);
       }
     };
     fetchProfileUser();
-  }, [user]);
+  }, [profileUserData]);
 
   return (
     <div className="InfoCard">
@@ -77,7 +75,7 @@ const InfoCard = () => {
         <span>{profileUser.worksAt}</span>
       </div>
 
-      <button className="button logout-button" onClick={handleLogOut}>Log Out</button>
+     {user._id ===profileUserId ? (<button className="button logout-button" onClick={handleLogOut}>Log Out</button>) : ""}
     </div>
   );
 };
