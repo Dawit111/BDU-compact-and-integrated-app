@@ -37,7 +37,7 @@ const User = ({ person }) => {
       </div>
       <button
         className={
-          following ? "button fc-button UnfollowButton" : "button fc-button"
+          following ?  "button fc-button" : "fc-button UnfollowButton"
         }
         onClick={handleFollow}
       >

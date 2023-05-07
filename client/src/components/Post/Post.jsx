@@ -5,10 +5,11 @@ import Share from "../../img/share.png";
 import Heart from "../../img/Like.png";
 import NotLike from "../../img/Notlike.png";
 import { likePost } from "../../api/PostsRequests";
+import { deletePost } from "../../api/PostsRequests";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Post = ({ data }) => {
+const Post = ({ data ,location}) => {
   const { user } = useSelector((state) => state.authReducer.authData);
   const [liked, setLiked] = useState(data.likes.includes(user._id));
   const [likes, setLikes] = useState(data.likes.length);
@@ -17,6 +18,11 @@ const Post = ({ data }) => {
   // profile data babi added
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
 
+  const handleDelete = async() => {
+   // window.alert("are you sure");
+    const id = data._id
+       await deletePost(id, data);
+  }
   const handleLike = () => {
     likePost(data._id, user._id);
     setLiked((prev) => !prev);
@@ -42,9 +48,11 @@ const Post = ({ data }) => {
           </Link>
           </div>
         </div>
-        <button className={"options"} onClick={""}>
-          Options
+        { location==="profilePage" &&
+         <button className={"options"} onClick={()=>handleDelete()}>
+          delete
         </button>
+        }
       </div>
 
       <div className="description">

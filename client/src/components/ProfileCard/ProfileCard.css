@@ -94,7 +94,7 @@
 .ProfileCard>span
 {
     font-weight: bold;
-    color: orange;
+    color: rgb(23, 158, 90);
     align-self: center;
     margin-bottom: 1rem;
     cursor: pointer;

@@ -9,7 +9,7 @@ const PostSide = ({ location }) => {
   return (
     <div className="PostSide">
       {location === "profilePage" ? "" : <PostShare />}
-      <Posts />
+      <Posts location={location}/>
     </div>
   );
 };

@@ -49,13 +49,14 @@
     color: var(--orange);
     border: 2px solid var(--orange);
     cursor: pointer;
-    background: transparent;
+    background: transparent; 
+    border-radius: 0.5rem;
 }
 
 
 .FollowersCard>span{
     font-weight: bold;
-    color: orange;
+    color: rgb(23, 158, 90);
     align-self: center;
     cursor: pointer;
 }
