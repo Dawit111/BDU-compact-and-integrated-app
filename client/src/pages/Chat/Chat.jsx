@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { userChats } from "../../api/ChatRequests";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
+import NavBar from "../../components/NavBar/NavBar";
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -66,10 +67,12 @@ const Chat = () => {
   };
 
   return (
+    <> 
+     <NavBar />
     <div className="Chat">
+    
       {/* Left Side */}
       <div className="Left-side-chat">
-        <LogoSearch />
         <div className="Chat-container">
           <h2>Chat</h2>
           <div className="Chat-list">
@@ -93,9 +96,6 @@ const Chat = () => {
       {/* Right Side */}
 
       <div className="Right-side-chat">
-        <div style={{ width: "20rem", alignSelf: "flex-end" }}>
-          <NavIcons />
-        </div>
         <ChatBox
           chat={currentChat}
           currentUser={user._id}
@@ -104,7 +104,9 @@ const Chat = () => {
         />
       </div>
     </div>
-  );
+
+    </>
+      );
 };
 
 export default Chat;
