@@ -6,6 +6,10 @@
     padding: 1rem;
     border-radius: 1rem;
     padding-left: 2rem;
+
+    height: auto;
+    max-height: 25em;
+    overflow: scroll;
 }
 
 

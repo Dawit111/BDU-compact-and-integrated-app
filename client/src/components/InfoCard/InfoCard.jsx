@@ -60,19 +60,19 @@ const InfoCard = ({profileUserData}) => {
         <span>
           <b>Status </b>
         </span>
-        <span>{profileUser.relationship}</span>
+        <span>{profileUser?.relationship}</span>
       </div>
       <div className="info">
         <span>
           <b>Lives in </b>
         </span>
-        <span>{profileUser.livesIn}</span>
+        <span>{profileUser?.livesIn}</span>
       </div>
       <div className="info">
         <span>
           <b>Works at </b>
         </span>
-        <span>{profileUser.worksAt}</span>
+        <span>{profileUser?.worksAt}</span>
       </div>
 
      {user._id ===profileUserId ? (<button className="button logout-button" onClick={handleLogOut}>Log Out</button>) : ""}

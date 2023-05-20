@@ -1,6 +1,6 @@
 import React from 'react'
 
-const QAPage = ({data}) => {
+const Category = ({data, minimize}) => {
   return (
     <>
     <div className="follower category">
@@ -10,14 +10,14 @@ const QAPage = ({data}) => {
           className="followerImage"
           style={{ width: "50px", height: "50px" }}
         />
-        <div className="name" style={{fontSize: '0.8rem'}}>
-          <span>{data?.name}</span>
-        </div>
+        {minimize ? ("") :(<div className="name" style={{fontSize: '0.8rem'}}>
+          <span>{data?.category}</span>
+        </div>)}
      
     </div>
-    <hr style={{ width: "85%", border: "0.1px solid #ececec" }} />
+    <hr style={{ width: "100%", border: "0.1px solid #ececec" }} />
   </>
   )
 }
 
-export default QAPage
+export default Category

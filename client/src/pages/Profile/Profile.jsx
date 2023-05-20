@@ -7,24 +7,30 @@ import "./Profile.css";
 import { getProfileUser } from "../../actions/UserAction";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import NavBar from "../../components/NavBar/NavBar";
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   let { profileUserData } = useSelector((state) => state.authReducer);
-  const {id} = useParams();
+  const { id } = useParams();
 
-  useEffect(()=>{
-   dispatch(getProfileUser(id));
-  },[id])
+  useEffect(() => {
+    dispatch(getProfileUser(id));
+  }, [id]);
 
   return (
-    <div className="Profile">
-      <ProfileLeft profileUserData={profileUserData}/>
-      <div className="Profile-center">
-        <ProfileCard profUserData = {profileUserData}/>
-      <PostSide location = 'profilePage'/>
+    <>
+      <div>
+        <NavBar />
       </div>
-      <RightSide/>
-    </div>
+      <div className="Profile">
+        <ProfileLeft profileUserData={profileUserData} />
+        <div className="Profile-center">
+          <ProfileCard profUserData={profileUserData} />
+          <PostSide location="profilePage" />
+        </div>
+        <RightSide />
+      </div>
+    </>
   );
 };
 

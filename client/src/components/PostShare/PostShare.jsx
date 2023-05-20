@@ -73,12 +73,13 @@ const PostShare = () => {
       <div>
         <input
           type="text"
-          placeholder="What's happening?"
+          placeholder="What do you want to post ?"
           required
           ref={desc}
         />
         <div className="postOptions">
           <div
+            title="pick an image"
             className="option"
             style={{ color: "var(--photo)" }}
             onClick={() => imageRef.current.click()}

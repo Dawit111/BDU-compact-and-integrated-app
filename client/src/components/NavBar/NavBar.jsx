@@ -10,7 +10,6 @@ const NavBar = () => {
         <LogoSearch />
         <NavIcons />
       </div>
-      <hr style={{ width: "100%", border: "0.1px solid #ececec" }} />
     </>
   );
 };

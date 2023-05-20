@@ -2,11 +2,12 @@
     background: var(--cardColor);
     border-radius: 1rem;
     display: grid;
-    grid-template-rows: 13vh 60vh 13vh;
+    grid-template-rows: 4.1rem 30rem;
 }
 
 .discussion-header {
-    padding: .5rem .5rem 0rem .5rem;
+    padding: .5rem;
+    padding-bottom: 0;
     display: flex;
     flex-direction: column;
 }
@@ -18,7 +19,6 @@
     padding: 1.5rem;
     overflow: scroll;
 }
-
 
 
 

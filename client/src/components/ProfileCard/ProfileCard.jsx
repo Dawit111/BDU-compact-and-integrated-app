@@ -52,7 +52,7 @@ const ProfileCard = ({ profUserData }) => {
       <div className="ProfileImages">
         <img
           src={
-            profileUser.coverPicture
+            profileUser?.coverPicture
               ? serverPublic + profileUser.coverPicture
               : serverPublic + "defaultCover.jpg"
           }
@@ -60,7 +60,7 @@ const ProfileCard = ({ profUserData }) => {
         />
         <img
           src={
-            profileUser.profilePicture
+            profileUser?.profilePicture
               ? serverPublic + profileUser.profilePicture
               : serverPublic + "defaultProfile.png"
           }
@@ -69,10 +69,10 @@ const ProfileCard = ({ profUserData }) => {
       </div>
       <div className="ProfileName">
         <span>
-          {profileUser.firstname} {profileUser.lastname}
+          {profileUser?.firstname} {profileUser?.lastname}
         </span>
         <span>
-          {profileUser.worksAt ? profileUser.worksAt : "Write about yourself"}
+          {profileUser?.worksAt ? profileUser.worksAt : "Write about yourself"}
         </span>
       </div>
 
@@ -80,12 +80,12 @@ const ProfileCard = ({ profUserData }) => {
         <hr />
         <div>
           <div className="follow">
-            <span>{user.followers.length}</span>
+            <span>{profileUser?.followers?.length}</span>
             <span>Followers</span>
           </div>
           <div className="vl"></div>
           <div className="follow">
-            <span>{user.following.length}</span>
+            <span>{profileUser?.following?.length}</span>
             <span>Following</span>
           </div>
           {/* for profilepage */}
@@ -93,7 +93,7 @@ const ProfileCard = ({ profUserData }) => {
             <div className="vl"></div>
             <div className="follow">
               <span>
-                {posts.filter((post) => post.userId === profileUser._id).length}
+                {posts.filter((post) => post.userId === profileUser?._id).length}
               </span>
               <span>Posts</span>
             </div>{" "}
@@ -101,7 +101,7 @@ const ProfileCard = ({ profUserData }) => {
         </div>
         <hr />
       </div>
-      {user._id !== profileUser._id && (
+      {user._id !== profileUser?._id && (
         <span>
           <Link
             to={""}

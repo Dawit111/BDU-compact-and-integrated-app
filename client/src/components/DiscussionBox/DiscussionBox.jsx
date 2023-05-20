@@ -1,29 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./DiscussionBox.css"
 import QuestionBox from '../QuestionBox/QuestionBox'
+import AskModal from '../AskModal/AskModal'
+import { getAllAnswers, getAllQuestions } from "../../actions/QAActions";
+import { useDispatch, useSelector } from 'react-redux';
+
 const DiscussionBox = ({category}) => {
-  const question = [
-    {
-      id: 1,
-      Title: "technology",
-      text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem adipisci corporis debitis facere, quibusdam incidunt. Accusantium nulla quam sequi tempora, placeat voluptatum doloremque laboriosam corrupti, voluptas sunt error at quibusdam."
-    },
-    {
-      id: 2,
-      Title: "business",
-      text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem adipisci corporis debitis facere, quibusdam incidunt. Accusantium nulla quam sequi tempora, placeat voluptatum doloremque laboriosam corrupti, voluptas sunt error at quibusdam."
-    },
-    {
-      id: 3,
-      Title: "History",
-      text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem adipisci corporis debitis facere, quibusdam incidunt. Accusantium nulla quam sequi tempora, placeat voluptatum doloremque laboriosam corrupti, voluptas sunt error at quibusdam."
-    },
-    {
-      id: 4,
-      Title: "Geography",
-      text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem adipisci corporis debitis facere, quibusdam incidunt. Accusantium nulla quam sequi tempora, placeat voluptatum doloremque laboriosam corrupti, voluptas sunt error at quibusdam."
+  const dispatch = useDispatch();
+  const [modalOpened, setModalOpened] = useState(false);
+  let { questions, answers, loading } = useSelector((state) => state.qaReducer);
+
+  useEffect(() => {
+    const fetchQuestions = async()=>{
+     await dispatch(getAllQuestions());
     }
-  ]
+    fetchQuestions();
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllAnswers());
+  }, []);
+
+if(category && category.category !== "ALL QUESTIONS"){
+  questions = questions.filter((question)=> question.category===category.category)
+}
   return (
     <>
       <div className="DiscussionBox-container">
@@ -44,19 +44,18 @@ const DiscussionBox = ({category}) => {
                   />
                   <div className="name" style={{ fontSize: "0.9rem" }}>
                     <span>
-                      {category?.name}
+                      {category?.category}
                     </span>
                   </div>
                 </div>
-                <div>
-                  <button style={{padding:".4rem", borderRadius: "12px"}}>Ask Question</button>
+                <div className='askButton'>
+                  <button onClick={()=>setModalOpened(true)} style={{padding:".4rem", borderRadius: "12px", cursor: "pointer"}}>Ask Question</button>
                 </div>
               </div>
               <hr
                 style={{
                   width: "99%",
                   border: "0.1px solid #ececec",
-                  marginTop: "20px",
                 }}
               />
             </div>
@@ -67,11 +66,15 @@ const DiscussionBox = ({category}) => {
           </span>
         )}
         <div className="discussion-body">
-          {
-            question.map((question)=>(
-              <QuestionBox question={question}/>
+          <>
+          <AskModal modalOpened={modalOpened} setModalOpened={setModalOpened} category={category}/>
+            {loading ? "Fetching Questions..." :
+            questions?.map((question, id)=>(
+               <QuestionBox question={question} answers={answers} key={id}/>
             ))
           }
+          </>
+        
            
         </div>
       </div>
