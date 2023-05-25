@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Post.css";
+import "./LostAndFound.css";
 import Comment from "../../img/comment.png";
 import Share from "../../img/share.png";
 import Heart from "../../img/Like.png";
@@ -11,92 +11,80 @@ import { Link, useParams } from "react-router-dom";
 import menuIcon from "../../img/menu.png";
 import DeleteModal from "../DeleteModal/DeleteModal";
 
-const Post = ({ data }) => {
+const LostAndFound = ({ data }) => {
   const params = useParams();
   const { user } = useSelector((state) => state.authReducer.authData);
-  const [liked, setLiked] = useState(data.likes.includes(user._id));
-  const [likes, setLikes] = useState(data.likes.length);
   const [postOption, setPostOption] = useState(false);
   const [delModalOpened, setDelModalOpened] = useState(false);
-  //const [postOwner, setPostOwner] = useState(data.postOwnerData[0] ? data.postOwnerData[0].username :"")
-  const postOwner = data.postOwnerData[0] ? data.postOwnerData[0] : "";
-  // profile data babi added
+  const [editStatusOpened, setEditStatusOpened] = useState(false);
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  const handleLike = () => {
-    likePost(data._id, user._id);
-    setLiked((prev) => !prev);
-    liked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
-  };
   return (
-    <div className="Post">
+    <div className="LostAndFound">
       <div className="detail">
         <div>
           <img
             src={
-              publicFolder + postOwner.profilePicture
-                ? publicFolder + postOwner.profilePicture
-                : publicFolder + "defaultProfile.png"
+              publicFolder + data.lfOwnerData[0].profilePicture ?
+              publicFolder + data.lfOwnerData[0].profilePicture :
+              publicFolder + "defaultProfile.png"
             }
             alt="profile"
             className="followerImage"
           />
           <div className="name">
-            <Link
-              to={`/profile/${postOwner._id}`}
+          <Link
+              to={`/profile/${data?.lfOwnerData[0]._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <span title="click to go to user profile">@{postOwner.username}</span>
-            </Link>
+            <span title="click to go to user profile">@{data?.lfOwnerData[0].username}</span>  
+          </Link>
           </div>
         </div>
-        {params.id === user._id && (
+        <div style={{background: data?.status === "solved" ? "gray": "orange", borderRadius: ".3rem", padding: ".2rem"}} className="status">
+            <span style={{fontSize: "12px", display: editStatusOpened ? "none": "flex"}}>{data?.status === "solved" ? "Solved" : "pending"}</span>
+      <div style={{display: editStatusOpened? "flex": "none"}}>
+        <select>
+        <option>Pending</option>
+        <option>Solved</option>
+      </select>
+      </div>
+      
+        </div>
+        {data.userId === user._id && (
           
             <div>
               <img
                 src={menuIcon}
                 alt=""
-                title={postOption? "hide delete" : "show delete"}
+                title={postOption? "hide options" : "show options"}
                 style={{ cursor: "pointer", height: "1.5rem", width: "1.5rem" }}
                 onClick={() => setPostOption((postOption) => !postOption)}
               />
 
-            <div style={{display: postOption? "flex" : "none"}}>
+            <div style={{display: postOption? "flex" : "none", gap:".5rem"}}>
+              <button className="button" onClick={()=> setEditStatusOpened((prev)=>!prev)}>
+                Update
+              </button>
               <button style={{background: "red"}} className="button" onClick={() => setDelModalOpened(true)}>
                 delete
               </button>
             </div>
-            <DeleteModal location={"post"} delModalOpened={delModalOpened} setDelModalOpened={setDelModalOpened} data={data} user={user}/>
+            <DeleteModal delModalOpened={delModalOpened} setDelModalOpened={setDelModalOpened} data={data} user={user}/>
 
           </div>
         )}
       </div>
-
       <div className="description">
-        <p># {data.desc}</p>
+        <p># {data?.lostAndFoundText}</p>
       </div>
 
       <img
         src={data?.image ? process.env.REACT_APP_PUBLIC_FOLDER + data.image : ""}
         alt=""
       />
-
-      <div className="postReact">
-        <img
-          src={liked ? Heart : NotLike}
-          alt=""
-          style={{ cursor: "pointer" }}
-          onClick={handleLike}
-        />
-        <img src={Comment} alt="" />
-        <img src={Share} alt="" />
-      </div>
-
-      <span style={{ color: "var(--gray)", fontSize: "12px" }}>
-        {likes} likes
-      </span>
     </div>
   );
 };
 
-export default Post;
+export default LostAndFound;

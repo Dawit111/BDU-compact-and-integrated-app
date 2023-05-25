@@ -7,6 +7,7 @@ import downvoteWhite from "../../img/downvoteWhite.png";
 
 import { useSelector } from "react-redux";
 import { voteAnswer } from "../../api/QARequests";
+import { Link } from "react-router-dom";
 
 const Answer = ({ answer, viewAnsClicked }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
@@ -72,7 +73,12 @@ const Answer = ({ answer, viewAnsClicked }) => {
           style={{ width: "40px", height: "40px" }}
         />
         <div className="name" style={{ fontSize: "0.9rem" }}>
-          <span>@{answer?.answerOwnerData[0].username}</span>
+        <Link
+              to={`/profile/${answer?.answerOwnerData[0]._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+            <span title="click to go to user profile">@{answer?.answerOwnerData[0].username}</span>  
+          </Link>
         </div>
       </div>
       <hr style={{ width: "100%", border: "0.1px solid 01ef" }} />

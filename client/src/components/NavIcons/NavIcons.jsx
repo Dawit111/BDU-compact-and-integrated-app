@@ -1,24 +1,28 @@
 import React from "react";
 
 import Home from "../../img/homee.png";
-import Noti from "../../img/noti.png";
+import Advert from "../../img/advert.png";
 import Comment from "../../img/comment.png";
-import { UilSetting } from "@iconscout/react-unicons";
+import Discussion from "../../img/discussion.png";
+
+//import { UilSetting } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
-import "./NavIcons.css"
+import "./NavIcons.css";
 
 const NavIcons = () => {
   return (
     <div className="navIcons">
       <Link to="../home">
-        <img src={Home} alt="" />
+        <img src={Home} alt="" title="Home" />
       </Link>
       <Link to="../discussion">
-        <UilSetting />
+      <img src={Discussion} alt="" title="Q&A page" />
       </Link>
-      <img src={Noti} alt="" />
+      <Link to="../advert">
+        <img src={Advert} alt="" title="Advert Page" />
+      </Link>
       <Link to="../chat">
-        <img src={Comment} alt="" />
+        <img src={Comment} alt="" title="Chatting"/>
       </Link>
     </div>
   );

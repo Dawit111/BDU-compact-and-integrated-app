@@ -1,11 +1,20 @@
 import { Modal, useMantineTheme } from "@mantine/core";
 import { deletePost } from "../../api/PostsRequests";
+import { deleteAdvert } from "../../api/AdvertRequests";
 
 
-export default function DeleteModal({delModalOpened, setDelModalOpened, data, user}){
+export default function DeleteModal({location, delModalOpened, setDelModalOpened, data, user}){
     const theme = useMantineTheme();
-    const handleDelete = async () => {
-        // window.alert("are you sure");
+    const handleDelete = async ()=>{
+     if(location === "post") handlePostDelete();
+     if(location === "advert") handleAdvertDelete();
+    }
+    const handleAdvertDelete = async () => {
+        const adId = data._id;
+        const userId = data.userId;
+        await deleteAdvert(adId, userId);
+    }
+    const handlePostDelete = async () => {
         const postId = data._id;
         const userId = user._id;
         await deletePost(postId, userId);

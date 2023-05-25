@@ -4,6 +4,7 @@ import AnswerBox from "../AnswerBox/AnswerBox";
 import { createAnswer } from "../../api/QARequests";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAnswers} from "../../actions/QAActions";
+import { Link } from "react-router-dom";
 
 const Question = ({ question, answers }) => {
   const dispatch = useDispatch();
@@ -43,8 +44,17 @@ const Question = ({ question, answers }) => {
             style={{ width: "50px", height: "50px" }}
           />
           <div className="name" style={{ fontSize: "0.9rem" }}>
-            <span>@{question.questionOwnerData[0].username}</span>
+          <Link
+              to={`/profile/${question?.questionOwnerData[0]._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+            <span title="click to go to user profile">@{question.questionOwnerData[0].username}</span>  
+          </Link>
           </div>
+          <div style={{paddingTop :".9rem", marginLeft:"10rem"}}>
+            <span>Status: {answers?.length === 0 ? "pending" : "answered"}</span>
+          </div>
+          
         </div>
         <hr style={{ width: "100%", border: "0.1px solid 01ef" }} />
         <div style={{ paddingBottom: ".1rem" }}>

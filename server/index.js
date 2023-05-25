@@ -13,6 +13,11 @@ import UploadRoute from './routes/UploadRoute.js'
 import ChatRoute from './routes/ChatRoute.js'
 import MessageRoute from './routes/MessageRoute.js'
 import QARoute from './routes/QARoute.js'
+import AdvertRoute from './routes/AdvertRoute.js'
+import LostAndFoundRoute from './routes/LostAndFoundRoute.js'
+import UploadAdvertRoute from './routes/UploadAdvertRoute.js'
+import UploadLostAndFoundRoute from './routes/UploadLostAndFoundRoute.js'
+
 
 const app = express();
 
@@ -43,3 +48,7 @@ app.use('/upload', UploadRoute)
 app.use('/chat', ChatRoute)
 app.use('/message', MessageRoute)
 app.use('/discussion' ,QARoute)
+app.use('/adverts', AdvertRoute)
+app.use('/lostAndFounds', LostAndFoundRoute)
+app.use('/uploadAdvertPhoto', UploadAdvertRoute)
+app.use('/uploadLostAndFoundPhoto', UploadLostAndFoundRoute)

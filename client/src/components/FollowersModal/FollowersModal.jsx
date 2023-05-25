@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, useMantineTheme } from "@mantine/core";
+import { Modal, useMantineTheme, ScrollArea } from "@mantine/core";
 import FollowersCard from "../FollowersCard/FollowersCard";
 
 const FollowersModal = ({ modalOpened, setModalOpened }) => {
@@ -16,6 +16,7 @@ const FollowersModal = ({ modalOpened, setModalOpened }) => {
       size="55%"
       opened={modalOpened}
       onClose={() => setModalOpened(false)}
+      scrollAreaComponent={ScrollArea.Autosize}
     >
 
     <FollowersCard location='modal'/>

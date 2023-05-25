@@ -11,7 +11,8 @@ export const createQuestion = async (req, res) => {
 
   try {
     const userData = await UserModel.findById(userId);
-    newQuestion.questionOwnerData.push(userData);
+    const { password, ...otherDetails } = userData._doc;
+    newQuestion.questionOwnerData.push(otherDetails);
     await newQuestion.save();
     res.status(200).json(newQuestion);
   } catch (error) {
@@ -26,7 +27,8 @@ export const createAnswer = async (req, res) => {
   const newAnswer = new AnswerModel(req.body);
   try {
     const userData = await UserModel.findById(userId);
-    newAnswer.answerOwnerData.push(userData);
+    const { password, ...otherDetails } = userData._doc;
+    newAnswer.answerOwnerData.push(otherDetails);
     newAnswer.questionId = id;
     await newAnswer.save();
     res.status(200).json(newAnswer);
