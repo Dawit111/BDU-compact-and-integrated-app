@@ -42,7 +42,7 @@ const SchoolAdvert = ({ data }) => {
           </Link>
           </div>
         </div>
-        {data?.userId === user._id && (
+        {user?.isAdmin && (
           
             <div>
               <img
@@ -68,7 +68,7 @@ const SchoolAdvert = ({ data }) => {
       </div>
 
       <div className="description">
-        <p># {data?.advertText}</p>
+        <p>{data?.advertText}</p>
       </div>
 
       <img

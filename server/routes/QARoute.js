@@ -18,17 +18,17 @@ import authMiddleWare from "../middleware/AuthMiddleware.js";
 const router = express.Router();
 //question routes
 router.post("/question/create", createQuestion);
-router.get("/question/:id/get", getQuestion);
-router.put("/question/:id/update", updateQuestion);
-router.delete("/question/:id/delete", deleteQuestion);
+router.get("/question/:qId/get", getQuestion);
+router.put("/question/:qId/update", updateQuestion);
+router.delete("/question/:qId/:userId/delete", deleteQuestion);
 router.get("/question/getAll", getAllQuestions)
  
 //answer routes
-router.post("/answer/:id/create", createAnswer);
-router.get("/answer/:id/get", getAnswer);
+router.post("/answer/:qId/create", createAnswer);
+router.get("/answer/:ansId/get", getAnswer);
 router.put("/answer/:ansId/vote", voteAnswer);
-router.put("/answer/:id/update", updateAnswer);
-router.delete("/answer/:id/delete", deleteAnswer);
+router.put("/answer/:ansId/update", updateAnswer);
+router.delete("/answer/:ansId/:userId/delete", deleteAnswer);
 router.get("/answer/getAll", getAllAnswers);
 
 //category routes

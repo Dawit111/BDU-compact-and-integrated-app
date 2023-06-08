@@ -21,11 +21,13 @@ const LostAndFounds = ({location}) => {
 
   if(location === "Lost Page") lostAndFounds = lostAndFounds.filter((lf)=> lf.isLostOrFound==="lost")
   if(location === "Found Page") lostAndFounds = lostAndFounds.filter((lf)=> lf.isLostOrFound==="found")
-
+  const sortedByUnsolvedPostOnTop = lostAndFounds?.sort((item1,item2)=>
+  (item1.status === "unSolved" && item2.status === "solved")? -1 : 
+  (item1.status === "solved" && item2.status === "unSolved")? 1 : 0)
   return (
     <div className="LostAndFounds">
      {loading ? "Fetching Lost & Founds"
-     :lostAndFounds.map((lf, id) => {
+     :sortedByUnsolvedPostOnTop.map((lf, id) => {
             return <LostAndFound data={lf} key={id} location={location}/>;
           })}
     </div>

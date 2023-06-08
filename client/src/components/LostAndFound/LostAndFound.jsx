@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./LostAndFound.css";
 import Comment from "../../img/comment.png";
 import Share from "../../img/share.png";
@@ -10,14 +10,25 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import menuIcon from "../../img/menu.png";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import { updateLostAndFound } from "../../actions/LostAndFoundActions";
 
 const LostAndFound = ({ data }) => {
+  const dispatch = useDispatch();
   const params = useParams();
+  const statusRef = useRef();
   const { user } = useSelector((state) => state.authReducer.authData);
   const [postOption, setPostOption] = useState(false);
   const [delModalOpened, setDelModalOpened] = useState(false);
   const [editStatusOpened, setEditStatusOpened] = useState(false);
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
+
+  const handleLostFoundStatusUpdate = () => {
+    data.status = statusRef.current.value;
+    const updatedData = data;
+    const lfId = data._id;
+   dispatch(updateLostAndFound(lfId, updatedData));
+   setEditStatusOpened(false)
+  }
 
   return (
     <div className="LostAndFound">
@@ -43,11 +54,12 @@ const LostAndFound = ({ data }) => {
         </div>
         <div style={{background: data?.status === "solved" ? "gray": "orange", borderRadius: ".3rem", padding: ".2rem"}} className="status">
             <span style={{fontSize: "12px", display: editStatusOpened ? "none": "flex"}}>{data?.status === "solved" ? "Solved" : "pending"}</span>
-      <div style={{display: editStatusOpened? "flex": "none"}}>
-        <select>
-        <option>Pending</option>
-        <option>Solved</option>
+      <div style={{display: editStatusOpened? "flex": "none", gap: ".7rem"}}>
+        <select ref={statusRef}>
+        <option value="unSolved">not solved</option>
+        <option value="solved">Solved</option>
       </select>
+      <button style={{cursor: "pointer"}} onClick={handleLostFoundStatusUpdate}>submit</button>
       </div>
       
         </div>
@@ -64,19 +76,19 @@ const LostAndFound = ({ data }) => {
 
             <div style={{display: postOption? "flex" : "none", gap:".5rem"}}>
               <button className="button" onClick={()=> setEditStatusOpened((prev)=>!prev)}>
-                Update
+                {editStatusOpened ? "close" : "update Status"}
               </button>
               <button style={{background: "red"}} className="button" onClick={() => setDelModalOpened(true)}>
                 delete
               </button>
             </div>
-            <DeleteModal delModalOpened={delModalOpened} setDelModalOpened={setDelModalOpened} data={data} user={user}/>
+            <DeleteModal location = {"lostFound"} delModalOpened={delModalOpened} setDelModalOpened={setDelModalOpened} data={data} user={user}/>
 
           </div>
         )}
       </div>
       <div className="description">
-        <p># {data?.lostAndFoundText}</p>
+        <p>{data?.lostAndFoundText}</p>
       </div>
 
       <img

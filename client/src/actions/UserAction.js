@@ -24,9 +24,22 @@ export const unfollowUser = (id, data)=> async(dispatch)=> {
     UserApi.unfollowUser(id, data)
 }
 
-//my own code
+//my code
 export const getProfileUser = (id) => async(dispatch)=> {
     console.log("user id from use action is",id)
    const {data} = await UserApi.getUser(id)
    dispatch({type: "PROFILE_USER",data})
 }
+
+export const getAllUsers = () => async(dispatch)=> {
+    dispatch({type: "USERS_FETCH_START"});
+    try{
+       const {data} = await UserApi.getAllUser();
+       dispatch({type: "USERS_FETCH_SUCCESS", data: data})
+    } catch(error) {
+        dispatch({type: "USERS_FETCH_FAIL"})
+    }
+    
+
+}
+

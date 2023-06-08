@@ -5,6 +5,10 @@ import { createAnswer } from "../../api/QARequests";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAnswers} from "../../actions/QAActions";
 import { Link } from "react-router-dom";
+import menuIcon from "../../img/menu.png";
+import DeleteModal from "../DeleteModal/DeleteModal";
+import AskModal from "../AskModal/AskModal";
+
 
 const Question = ({ question, answers }) => {
   const dispatch = useDispatch();
@@ -13,6 +17,11 @@ const Question = ({ question, answers }) => {
   const [giveAnsClicked, setGiveAnsClicked] = useState(false);
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
   const ansValue = useRef();
+
+  const [postOption, setPostOption] = useState(false);
+  const [delModalOpened, setDelModalOpened] = useState(false);
+  const [modalOpened, setModalOpened] = useState(false);
+
   answers = answers?.filter((answer) => answer.questionId === question._id);
 
   const submitAnswer = async () => {
@@ -32,8 +41,9 @@ const Question = ({ question, answers }) => {
   return (
     <div className="eachQuestion">
       <div className="questionText">
-        <div style={{ display: "flex" }}>
-          <img
+        <div className="detail">
+          <div>
+             <img
             src={
               publicFolder + question.questionOwnerData[0].profilePicture
                 ? publicFolder + question.questionOwnerData[0].profilePicture
@@ -51,10 +61,34 @@ const Question = ({ question, answers }) => {
             <span title="click to go to user profile">@{question.questionOwnerData[0].username}</span>  
           </Link>
           </div>
+          </div>
+         
           <div style={{paddingTop :".9rem", marginLeft:"10rem"}}>
             <span>Status: {answers?.length === 0 ? "pending" : "answered"}</span>
           </div>
+          {user?._id === question.userId && (
           
+          <div>
+            <img
+              src={menuIcon}
+              alt=""
+              title={postOption? "hide options" : "show options"}
+              style={{ cursor: "pointer", height: "1.5rem", width: "1.5rem" }}
+              onClick={() => setPostOption((postOption) => !postOption)}
+            />
+
+          <div style={{display: postOption? "flex" : "none", gap:".5rem"}}>
+          <button  className="button" onClick={()=> setModalOpened(true)}>
+              Edit
+            </button>
+            <button style={{background: "red"}}  className="button" onClick={() => setDelModalOpened(true)}>
+              delete
+            </button>
+          </div>
+          <DeleteModal location={"question"} delModalOpened={delModalOpened} setDelModalOpened={setDelModalOpened} data={question} user={user}/>
+          <AskModal location = {"update"} modalOpened={modalOpened} setModalOpened={setModalOpened} data={question} />
+        </div>
+      )}
         </div>
         <hr style={{ width: "100%", border: "0.1px solid 01ef" }} />
         <div style={{ paddingBottom: ".1rem" }}>
@@ -78,14 +112,11 @@ const Question = ({ question, answers }) => {
               borderRadius: "12px",
               display: "flex",
             }}
-            onClick={() =>
-              answers?.length === 0
-                ? window.alert("This question is not answered yet!!!")
-                : setViewAnsClicked((viewAnsClicked) => !viewAnsClicked)
+            onClick={() => setViewAnsClicked((viewAnsClicked) => !viewAnsClicked)
             }
             className={viewAnsClicked ? "" : "button"}
           >
-            {viewAnsClicked ? "Hide Answers" : "Show Answers "}
+            {viewAnsClicked ? (answers?.length === 0 ? "there's nothing" :"Hide Answers" ): "Show Answers "}
             <div style={{ display: viewAnsClicked ? "none" : "flex" }}>
               ({answers?.length})
             </div>{" "}
@@ -96,7 +127,7 @@ const Question = ({ question, answers }) => {
             style={{
               padding: ".4rem",
               borderRadius: "12px",
-              background: giveAnsClicked ? "red" : "",
+              // background: giveAnsClicked ? "red" : "",
             }}
             onClick={() =>
               setGiveAnsClicked((giveAnsClicked) => !giveAnsClicked)

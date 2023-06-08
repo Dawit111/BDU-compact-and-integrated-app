@@ -35,12 +35,12 @@ export const getLostAndFoundPost = async (req, res) => {
 export const updateLostAndFoundPost = async (req, res) => {
   const id = req.params.lfId;
   const { userId } = req.body;
-
   try {
     const lostAndFoundPost = await lostAndFoundModel.findById(id);
     if (lostAndFoundPost.userId === userId) {
       await lostAndFoundPost.updateOne({ $set: req.body });
-      res.status(200).json("lostAndFoundPost updated!");
+      const updatedData = await lostAndFoundModel.findById(id);
+      res.status(200).json(updatedData);
     } else {
       res.status(403).json("Authentication failed");
     }
@@ -53,12 +53,12 @@ export const updateLostAndFoundPost = async (req, res) => {
 export const deleteLostAndFoundPost = async (req, res) => {
  
   const {lfId} = req.params;
-  const {userId} = req.body;
+  const {userId} = req.params;
   try {
     const lostAndFoundPost = await lostAndFoundModel.findById(lfId);
     if (lostAndFoundPost.userId === userId) {
       await lostAndFoundPost.deleteOne();
-      res.status(200).json("lostAndFoundPost deleted.");
+      res.status(200).json(lostAndFoundPost);
     } else {
       res.status(403).json("Action forbidden");
     }

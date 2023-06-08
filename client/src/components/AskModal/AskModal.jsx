@@ -1,17 +1,25 @@
 import { Modal, Textarea, useMantineTheme } from "@mantine/core";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createQuestion } from "../../api/QARequests";
-import { getAllQuestions } from "../../actions/QAActions";
+import { createQuestion, updateQuestion } from "../../actions/QAActions";
 
-export default function AskModal({ modalOpened, setModalOpened, category }) {
+export default function AskModal({ location, data, modalOpened, setModalOpened, category }) {
   const dispatch = useDispatch();
   const theme = useMantineTheme();
 const title = useRef()
 const question = useRef()
 const { user } = useSelector((state) => state.authReducer.authData);
 
+const [currentTitle, setCurrentTitle] = useState();
+const [currentQuestionText, setCurrentQuestionText] = useState()
 
+useEffect(()=>{
+  function setPlaceHolder() {
+  setCurrentTitle(data?.title)
+  setCurrentQuestionText(data?.questionText)
+  }
+  setPlaceHolder()
+},[data])
  // const handleChange = (e) => {
     //setFormData({ ...formData, [e.target.name]: e.target.value });
  // };
@@ -22,15 +30,14 @@ const { user } = useSelector((state) => state.authReducer.authData);
     const newQuestion = {
       title : title.current.value,
       questionText : question.current.value,
-      category: category.category,
+      category: category?.category,
       userId : user._id
     }
     try {
-      await createQuestion(newQuestion)
-      dispatch(getAllQuestions());
+     location === "new" && dispatch(createQuestion(newQuestion));
+     location === "update" && dispatch(updateQuestion(data._id, newQuestion))
       setModalOpened(false)
-     console.log("the question data is",newQuestion)
-     resetQuestionForm();
+      resetQuestionForm();
     } catch(error) {
       console.log("error from submitting question",error);
     }
@@ -59,7 +66,7 @@ const { user } = useSelector((state) => state.authReducer.authData);
         <div className="formInputs">
           <div style={{ marginBottom: "1rem" }}>
             <input
-             // value={formData.title}
+             value={currentTitle}
              ref={title}
               style={{ padding: ".5rem", width: "39rem" }}
               type="text"
@@ -67,11 +74,13 @@ const { user } = useSelector((state) => state.authReducer.authData);
               name="title"
               placeholder="Title for your question"
               required
+              onChange={(e)=>setCurrentTitle(()=>e.value)}
+
             />
           </div>
           <div>
             <textarea
-              //value={formData.question}
+              value={currentQuestionText}
               ref={question}
               style={{ height: "15rem", width: "39.1rem", padding: ".5rem" }}
               type="text"
@@ -79,6 +88,8 @@ const { user } = useSelector((state) => state.authReducer.authData);
               name="question"
               placeholder="your question"
               required
+              onChange={(e)=>setCurrentQuestionText(()=>e.value)}
+
               
             />
           </div>
@@ -92,7 +103,7 @@ const { user } = useSelector((state) => state.authReducer.authData);
             className="button askButton"
             type="submit"
           >
-            Share Question
+           {location === "new" ? "Share Question" : location === "update" ? "update" : ""} 
           </button>
         </div>
       </form>

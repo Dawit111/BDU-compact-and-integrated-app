@@ -7,7 +7,7 @@ const LogoSearch = () => {
     <div className="LogoSearch">
       <img src={Logo} alt="" />
       <div className="Search">
-          <input type="text" placeholder="#Explore"/>
+          <input style={{fontSize: "1rem"}}type="text" placeholder="Search"/>
           <div className="s-icon">
                 <UilSearch/>
           </div>

@@ -12,7 +12,7 @@ API.interceptors.request.use((req) => {
   });
 
 export const getAllLostAndFound = () => API.get(`/lostAndFounds/getAll`);
-export const updateLostAndFound = (lfId, data) => API.put(`/lostAndFounds/${lfId}/update`, data);
-export const deleteLostAndFound = (lfId, data) => API.delete(`/lostAndFounds/${lfId}/delete`, data);
+export const updateLostAndFound = (lfId, updatedData) => API.put(`/lostAndFounds/${lfId}/update`, updatedData);
+export const deleteLostAndFound = (lfId, userId) => API.delete(`/lostAndFounds/${lfId}/${userId}/delete`);
 
 

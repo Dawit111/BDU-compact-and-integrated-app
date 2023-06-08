@@ -4,6 +4,10 @@
     grid-template-columns: 22% auto;
     gap: 1rem;
     transition: grid-template-columns .5s;
+    margin-top: 70px;
+    height: auto;
+    max-height: 34.1rem;
+    overflow: scroll;
   }
   
   .Left-side-advert {
@@ -20,7 +24,7 @@
     padding-left: .7rem;
     padding-right: .7rem;
 
-    height: auto;
+    height: 34.1rem;
     max-height: 34.1rem;
     overflow: scroll;
   }

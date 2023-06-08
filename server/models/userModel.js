@@ -22,6 +22,10 @@ const UserSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    activeStatus: {
+      type: Boolean,
+      default: true,
+    },
    profilePicture: String,
     coverPicture: String,
     about: String,

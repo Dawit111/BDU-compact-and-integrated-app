@@ -13,6 +13,6 @@ router.post("/create", createLostAndFound);
 router.get("/:lfId/get", getLostAndFoundPost);
 router.get("/getAll", getAllLostAndFoundPosts);
 router.put("/:lfId/update", updateLostAndFoundPost);
-router.delete("/:lfId/delete", deleteLostAndFoundPost);
+router.delete("/:lfId/:userId/delete", deleteLostAndFoundPost);
 
 export default router;

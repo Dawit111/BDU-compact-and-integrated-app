@@ -22,7 +22,7 @@ export const createQuestion = async (req, res) => {
 
 //creating answers
 export const createAnswer = async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.qId;
   const { userId } = req.body;
   const newAnswer = new AnswerModel(req.body);
   try {
@@ -96,14 +96,15 @@ export const getAnswer = async (req, res) => {
 
 // update question
 export const updateQuestion = async (req, res) => {
-  const questionId = req.params.id;
+  const questionId = req.params.qId;
   const { userId } = req.body;
 
   try {
     const question = await QuestionModel.findById(questionId);
     if (question.userId === userId) {
       await question.updateOne({ $set: req.body });
-      res.status(200).json("question updated!");
+      const updatedQuestion = await QuestionModel.findById(questionId);
+      res.status(200).json(updatedQuestion);
     } else {
       res.status(403).json("Authentication failed");
     }
@@ -113,14 +114,15 @@ export const updateQuestion = async (req, res) => {
 // update an answer
 
 export const updateAnswer = async (req, res) => {
-  const answerId = req.params.id;
+  const answerId = req.params.ansId;
   const { userId } = req.body;
 
   try {
     const answer = await AnswerModel.findById(answerId);
     if (answer.userId === userId) {
       await answer.updateOne({ $set: req.body });
-      res.status(200).json("answer updated!");
+      const updatedAnswer = await AnswerModel.findById(answerId);
+      res.status(200).json(updatedAnswer);
     } else {
       res.status(403).json("Authentication failed");
     }
@@ -129,8 +131,8 @@ export const updateAnswer = async (req, res) => {
 
 // delete a question
 export const deleteQuestion = async (req, res) => {
-  const id = req.params.id;
-  const { userId } = req.body;
+  const id = req.params.qId;
+  const { userId } = req.params;
   try {
     const question = await QuestionModel.findById(id);
     if (question.userId === userId) {
@@ -146,8 +148,8 @@ export const deleteQuestion = async (req, res) => {
 
 // delete an answer
 export const deleteAnswer = async (req, res) => {
-  const id = req.params.id;
-  const { userId } = req.body;
+  const id = req.params.ansId;
+  const { userId } = req.params;
   try {
     const answer = await AnswerModel.findById(id);
     if (answer.userId === userId) {

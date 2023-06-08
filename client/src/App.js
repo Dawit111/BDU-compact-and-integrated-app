@@ -7,6 +7,9 @@ import { useSelector } from "react-redux";
 import Chat from "./pages/Chat/Chat";
 import Discussion from "./pages/Discussion/Discussion";
 import Advert from "./pages/Advertisement/Advert";
+import SchoolAdvertSide from "./components/SchoolAdvertSide/SchoolAdvertSide";
+import LostAndFoundSide from "./components/LostAndFoundSide/LostAndFoundSide";
+import AdminDashBoard from "./pages/AdminDashBoard/AdminDashBoard";
 
 function App() {
   const user = useSelector((state) => state.authReducer.authData);
@@ -46,6 +49,14 @@ function App() {
         <Route
           path="/advert"
           element={user ? <Advert /> : <Navigate to="../auth" />}
+        />
+         <Route
+          path="/advert/:advertChoise"
+          element={user ? <Advert /> : <Navigate to="../auth" />}
+        />
+        <Route
+          path="/adminDashBoard"
+          element={user ? <AdminDashBoard /> : <Navigate to="../auth" />}
         />
         <Route
           path="*"

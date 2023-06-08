@@ -135,7 +135,7 @@ useEffect(()=> {
                         : "message"
                     }
                   >
-                    <span>{message.text}</span>{" "}
+                    <span>{message.text}</span>
                     <span>{format(message.createdAt)}</span>
                   </div>
                 </>

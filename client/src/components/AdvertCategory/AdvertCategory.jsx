@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-const AdvertCategory = ({data, minimize}) => {
+const AdvertCategory = ({data, minimize, currentCategory}) => {
+  const navigate  = useNavigate();
+
+  // if(currentCategory?.name === "School Advert") navigate("/school")
+  // if(currentCategory?.name === "Found Things") navigate("/found") 
+  // if(currentCategory?.name === "Lost Things") navigate("/lost")
+  useEffect(()=>{
+  if(currentCategory?.name === "School Advert") navigate(`/advert/${"school"}`)
+  if(currentCategory?.name === "Found Things") navigate(`/advert/${"found"}`) 
+  if(currentCategory?.name === "Lost Things") navigate(`/advert/${"lost"}`)
+  },[currentCategory])
+
+  
   return (
     <>
     <div className="follower category">

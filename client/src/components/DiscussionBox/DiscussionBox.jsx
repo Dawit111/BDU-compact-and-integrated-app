@@ -11,8 +11,8 @@ const DiscussionBox = ({category}) => {
   let { questions, answers, loading } = useSelector((state) => state.qaReducer);
 
   useEffect(() => {
-    const fetchQuestions = async()=>{
-     await dispatch(getAllQuestions());
+    const fetchQuestions = ()=>{
+      dispatch(getAllQuestions());
     }
     fetchQuestions();
   }, []);
@@ -50,6 +50,7 @@ if(category && category.category !== "ALL QUESTIONS"){
                 </div>
                 <div className='askButton'>
                 { (category.category !== "ALL QUESTIONS") && <button onClick={()=>setModalOpened(true)} style={{padding:".4rem", borderRadius: "12px", cursor: "pointer"}}>Ask Question</button>}
+                <AskModal location = {"new"} modalOpened={modalOpened} setModalOpened={setModalOpened} category={category}/>
                 </div>
               </div>
               <hr
@@ -66,16 +67,11 @@ if(category && category.category !== "ALL QUESTIONS"){
           </span>
         )}
         <div className="discussion-body">
-          <>
-          <AskModal modalOpened={modalOpened} setModalOpened={setModalOpened} category={category}/>
-            {loading ? "Fetching Questions..." :
+          {loading ? "Fetching Questions..." :
             questions?.map((question, id)=>(
                <QuestionBox question={question} answers={answers} key={id}/>
             ))
-          }
-          </>
-        
-           
+          }  
         </div>
       </div>
     </>
