@@ -12,6 +12,7 @@ const Auth = () => {
     username: "",
     password: "",
     confirmpass: "",
+    activeStatus: "",
   };
   const loading = useSelector((state) => state.authReducer.loading);
   const navigate = useNavigate();
@@ -37,17 +38,21 @@ const Auth = () => {
 
   // Form Submission
   const handleSubmit = (e) => {
+    data.activeStatus = "active";
     setConfirmPass(true);
     e.preventDefault();
     if (isSignUp) {
       data.password === data.confirmpass
-        ? dispatch(signUp(data, navigate))
+        ? handleSignUp()
         : setConfirmPass(false);
     } else {
       dispatch(logIn(data, navigate));
     }
   };
-
+  function handleSignUp(){
+    dispatch(signUp(data, navigate))
+    setIsSignUp(()=>false)
+  }
   return (
     <div className="Auth">
       {/* left side */}
@@ -131,7 +136,7 @@ const Auth = () => {
               display: confirmPass ? "none" : "block",
             }}
           >
-            *Confirm password is not same
+            *The passwords don't match!
           </span>
           <div>
             <span

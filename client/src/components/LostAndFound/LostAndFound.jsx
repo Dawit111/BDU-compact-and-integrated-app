@@ -75,10 +75,10 @@ const LostAndFound = ({ data }) => {
               />
 
             <div style={{display: postOption? "flex" : "none", gap:".5rem"}}>
-              <button className="button" onClick={()=> setEditStatusOpened((prev)=>!prev)}>
+              <button className="editDeleteButton" onClick={()=> setEditStatusOpened((prev)=>!prev)}>
                 {editStatusOpened ? "close" : "update Status"}
               </button>
-              <button style={{background: "red"}} className="button" onClick={() => setDelModalOpened(true)}>
+              <button className="editDeleteButton" onClick={() => setDelModalOpened(true)}>
                 delete
               </button>
             </div>

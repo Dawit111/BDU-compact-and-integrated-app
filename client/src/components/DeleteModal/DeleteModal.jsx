@@ -3,17 +3,24 @@ import { deletePost } from "../../api/PostsRequests";
 import { deleteAdvert } from "../../api/AdvertRequests";
 import { deleteLostAndFound } from "../../api/LostAndFoundRequests";
 import { deleteAnswer, deleteQuestion } from "../../api/QARequests";
+import { deleteUser } from "../../api/UserRequests";
 
 
 export default function DeleteModal({location, delModalOpened, setDelModalOpened, data, user}){
     const theme = useMantineTheme();
-
     const handleDelete = async ()=>{
      if(location === "post") handlePostDelete();
      if(location === "advert") handleAdvertDelete();
      if(location === "lostFound") handleLostFoundDelete();
      if(location === "question") handleQuestionDelete();
      if(location === "answer") handleAnswerDelete();
+     if(location === "adminPanel") handleUserDelete();
+    }
+
+    const handleUserDelete = async () => {
+      const adminId = user._id;
+      const userId = data._id;
+      await deleteUser(adminId, userId);
     }
 
     const handleAnswerDelete = async () => {

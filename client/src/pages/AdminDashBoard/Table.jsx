@@ -1,12 +1,24 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { getAllUsers, updateUserActiveStatus } from "../../actions/UserAction";
+import DeleteModal from "../../components/DeleteModal/DeleteModal";
 
 function Table({ data }) {
-  const [filter, setFilter] = useState('');
+  const { user } = useSelector((state) => state.authReducer.authData);
+  const dispatch  = useDispatch()
+  const [filter, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [delModalOpened, setDelModalOpened] = useState(false);
+
+  data = data?.filter((users)=> !users.isAdmin);  //filter all users who are not admin.
+
   const filteredData = useMemo(() => {
-    let filtered = data?.filter(item => item.username.toLowerCase().includes(filter.toLowerCase()));
+    let filtered = data?.filter((item) =>
+      item.username.toLowerCase().includes(filter.toLowerCase())
+    );
     return filtered;
   }, [data, filter]);
 
@@ -14,17 +26,23 @@ function Table({ data }) {
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = filteredData?.slice(indexOfFirstRow, indexOfLastRow);
-   
-  function handleStatusUpdate(item){
-    console.log(item.username)
+
+  const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
+
+  function handleStatusUpdate(item,e) {
+    item.activeStatus = e.target.value;
+    const userData = item;
+    const adminId = user._id;
+   dispatch(updateUserActiveStatus(adminId, userData));
+   dispatch(getAllUsers());
   }
 
   function handlePreviousPage() {
-    setCurrentPage(currentPage => currentPage - 1);
+    setCurrentPage((currentPage) => currentPage - 1);
   }
 
   function handleNextPage() {
-    setCurrentPage(currentPage => currentPage + 1);
+    setCurrentPage((currentPage) => currentPage + 1);
   }
 
   function handleRowsPerPageChange(e) {
@@ -35,41 +53,73 @@ function Table({ data }) {
   return (
     <div>
       <div className="filters">
-        <input type="text" placeholder="Filter by username" value={filter} onChange={e => setFilter(e.target.value)} />
+        <input
+          type="text"
+          placeholder="Filter by username"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
       </div>
       <table>
         <thead>
           <tr>
+            <th>Picture</th>
             <th>Username</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Lives In</th>
+            <th>Full Name</th>
+            <th>Department</th>
             <th>Works At</th>
             <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {currentRows?.map(item => (
+          {currentRows?.map((item) => (
             <tr key={item.id}>
+              <td>
+              <Link
+              to={`/profile/${item._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+                <img
+                  src={
+                    publicFolder + item.profilePicture
+                      ? publicFolder + item.profilePicture
+                      : publicFolder + "defaultProfile.png"
+                  }
+                  title="tap to visit profile"
+                  alt="profile"
+                  className="followerImage"
+                />
+                </Link>
+              </td>
               <td>{item.username}</td>
-              <td>{item.firstname}</td>
-              <td>{item.lastname}</td>
-              <td>{item.livesIn}</td>
+              <td>{item.firstname+" "+item.lastname}</td>
+              <td>{item.department}</td>
               <td>{item.worksAt}</td>
               <td>
-                <select onChange={()=>handleStatusUpdate(item)}>
-                  <option value="true">Active</option>
-                  <option value="false">Suspended</option>
+                <select value={item.activeStatus} onChange={(e) => handleStatusUpdate(item,e)}>
+                  <option value={"active"}>Active</option>
+                  <option value={"inactive"}>Suspended</option>
                 </select>
+              </td>
+              <td>
+                <button onClick={()=>setDelModalOpened(true)}>delete</button>
+                <DeleteModal location={"adminPanel"} delModalOpened={delModalOpened} setDelModalOpened={setDelModalOpened} data={item} user={user}/>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className="pagination">
-        <button disabled={currentPage === 1} onClick={handlePreviousPage}>Previous</button>
-        <span>{currentPage} of {totalPages}</span>
-        <button disabled={currentPage === totalPages} onClick={handleNextPage}>Next</button>
+        <button disabled={currentPage === 1} onClick={handlePreviousPage}>
+          Previous
+        </button>
+        <span>
+          {currentPage} of {totalPages}
+        </span>
+        <button disabled={currentPage === totalPages} onClick={handleNextPage}>
+          Next
+        </button>
         <select value={rowsPerPage} onChange={handleRowsPerPageChange}>
           <option value="5">5 Rows</option>
           <option value="10">10 Rows</option>

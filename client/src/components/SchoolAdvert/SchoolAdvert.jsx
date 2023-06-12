@@ -54,10 +54,10 @@ const SchoolAdvert = ({ data }) => {
               />
 
             <div style={{display: postOption? "flex" : "none", gap:".5rem"}}>
-            <button  className="button" onClick={()=> setUpdateModalOpened(true)}>
-                Update
+            <button  className="editDeleteButton" onClick={()=> setUpdateModalOpened(true)}>
+                Edit
               </button>
-              <button style={{background: "red"}}  className="button" onClick={() => setDelModalOpened(true)}>
+              <button className="editDeleteButton" onClick={() => setDelModalOpened(true)}>
                 delete
               </button>
             </div>

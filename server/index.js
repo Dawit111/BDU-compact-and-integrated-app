@@ -17,6 +17,7 @@ import AdvertRoute from './routes/AdvertRoute.js'
 import LostAndFoundRoute from './routes/LostAndFoundRoute.js'
 import UploadAdvertRoute from './routes/UploadAdvertRoute.js'
 import UploadLostAndFoundRoute from './routes/UploadLostAndFoundRoute.js'
+import CommentRoute from './routes/CommentRoute.js'
 
 
 const app = express();
@@ -52,3 +53,4 @@ app.use('/adverts', AdvertRoute)
 app.use('/lostAndFounds', LostAndFoundRoute)
 app.use('/uploadAdvertPhoto', UploadAdvertRoute)
 app.use('/uploadLostAndFoundPhoto', UploadLostAndFoundRoute)
+app.use('/comment', CommentRoute)

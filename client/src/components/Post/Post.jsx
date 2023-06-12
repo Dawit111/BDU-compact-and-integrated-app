@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import menuIcon from "../../img/menu.png";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import CommentSection from "./CommentSection";
 
 const Post = ({ data }) => {
   const params = useParams();
@@ -22,12 +23,16 @@ const Post = ({ data }) => {
   const postOwner = data.postOwnerData[0] ? data.postOwnerData[0] : "";
   // profile data babi added
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
-
+  const [openComment, setOpenComment] = useState(false);
   const handleLike = () => {
     likePost(data._id, user._id);
     setLiked((prev) => !prev);
     liked ? setLikes((prev) => prev - 1) : setLikes((prev) => prev + 1);
   };
+
+  const { comments, loading } = useSelector((state) => state.commentReducer);
+  const commentss = comments.filter((comment)=> comment.postId === data._id);
+
   return (
     <div className="Post">
       <div className="detail">
@@ -46,28 +51,37 @@ const Post = ({ data }) => {
               to={`/profile/${postOwner._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <span title="click to go to user profile">@{postOwner.username}</span>
+              <span title="click to go to user profile">
+                @{postOwner.username}
+              </span>
             </Link>
           </div>
         </div>
         {params.id === user._id && (
-          
-            <div>
-              <img
-                src={menuIcon}
-                alt=""
-                title={postOption? "hide delete" : "show delete"}
-                style={{ cursor: "pointer", height: "1.5rem", width: "1.5rem" }}
-                onClick={() => setPostOption((postOption) => !postOption)}
-              />
+          <div>
+            <img
+              src={menuIcon}
+              alt=""
+              title={postOption ? "hide delete" : "show delete"}
+              style={{ cursor: "pointer", height: "1.5rem", width: "1.5rem" }}
+              onClick={() => setPostOption((postOption) => !postOption)}
+            />
 
-            <div style={{display: postOption? "flex" : "none"}}>
-              <button style={{background: "red"}} className="button" onClick={() => setDelModalOpened(true)}>
+            <div style={{ display: postOption ? "flex" : "none" }}>
+              <button
+                className="editDeleteButton"
+                onClick={() => setDelModalOpened(true)}
+              >
                 delete
               </button>
             </div>
-            <DeleteModal location={"post"} delModalOpened={delModalOpened} setDelModalOpened={setDelModalOpened} data={data} user={user}/>
-
+            <DeleteModal
+              location={"post"}
+              delModalOpened={delModalOpened}
+              setDelModalOpened={setDelModalOpened}
+              data={data}
+              user={user}
+            />
           </div>
         )}
       </div>
@@ -77,7 +91,9 @@ const Post = ({ data }) => {
       </div>
 
       <img
-        src={data?.image ? process.env.REACT_APP_PUBLIC_FOLDER + data.image : ""}
+        src={
+          data?.image ? process.env.REACT_APP_PUBLIC_FOLDER + data.image : ""
+        }
         alt=""
       />
 
@@ -88,13 +104,28 @@ const Post = ({ data }) => {
           style={{ cursor: "pointer" }}
           onClick={handleLike}
         />
-        <img src={Comment} alt="" />
-        <img src={Share} alt="" />
+        <img
+          src={Comment}
+          alt=""
+          onClick={() => setOpenComment((prev) => !prev)}
+          style={{ cursor: "pointer" }}
+        />
+        {/* <img src={Share} alt="" /> */}
       </div>
-
-      <span style={{ color: "var(--gray)", fontSize: "12px" }}>
+      <div style={{display: "flex", gap: "1rem"}}>
+         <span style={{ color: "var(--gray)", fontSize: "12px" }}>
         {likes} likes
       </span>
+      <span style={{ color: "var(--gray)", fontSize: "12px" }}>
+        {commentss?.length} comments
+      </span>
+      </div>
+     
+      {openComment && 
+       <div>
+          <CommentSection post = {data}/>
+      </div> 
+      }
     </div>
   );
 };

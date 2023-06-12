@@ -93,7 +93,7 @@ const ProfileCard = ({ profUserData }) => {
             <div className="vl"></div>
             <div className="follow">
               <span>
-                {posts.filter((post) => post.userId === profileUser?._id).length}
+                {posts?.filter((post) => post.userId === profileUser?._id).length}
               </span>
               <span>Posts</span>
             </div>{" "}

@@ -56,7 +56,7 @@ export const updateUser = async (req, res) => {
       const token = jwt.sign(
         { username: user.username, id: user._id },
         process.env.JWTKEY,
-        { expiresIn: "1h" }
+        { expiresIn: "24h" }
       );
       console.log({user, token})
       res.status(200).json({user, token});
@@ -71,18 +71,47 @@ export const updateUser = async (req, res) => {
   }
 };
 
+//update user active status by admin
+export const updateUserActiveStatus = async (req, res) => {
+  const adminId = req.params.adminId;
+  const { _id } = req.body;
+  const adminPerson = await UserModel.findById(adminId);
+  if (adminPerson.isAdmin) {
+    try {
+      // have to change this
+      const user = await UserModel.findByIdAndUpdate(_id, req.body, {
+        new: true,
+      });
+      const token = jwt.sign(
+        { username: user.username, id: user._id },
+        process.env.JWTKEY,
+        { expiresIn: "24h" }
+      );
+      console.log({user, token})
+      res.status(200).json({user, token});
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  } else {
+    res
+      .status(403)
+      .json("Access Denied! You are not an admin .");
+  }
+}
+
+
 // Delete a user
 export const deleteUser = async (req, res) => {
-  const id = req.params.id;
-
-  const { currentUserId, currentUserAdmin } = req.body;
-
-  if (currentUserId == id || currentUserAdmin) {
+  const adminId = req.params.adminId;
+  const userId = req.params.userId;
+  const admin = await UserModel.findById(adminId)
+    //const { currentUserId, currentUserAdmin } = req.body;
+  if (admin.isAdmin) {
     try {
-      await UserModel.findByIdAndDelete(id);
+      await UserModel.findByIdAndDelete(userId);
       res.status(200).json("User Deleted Successfully!");
     } catch (error) {
-      res.status(500).json(err);
+      res.status(500).json(error);
     }
   } else {
     res.status(403).json("Access Denied!");

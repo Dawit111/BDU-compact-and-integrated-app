@@ -36,7 +36,8 @@ const authReducer = (state = { authData: null, loading: false, error: false, upd
     //my own code
     case "PROFILE_USER":
       return {...state, profileUserData: action.data}
-      
+    case "SIGNUP_SUCCESS":
+      return {...state,loading: false}
       default:
       return state;
   }

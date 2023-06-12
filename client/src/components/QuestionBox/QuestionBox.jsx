@@ -78,10 +78,10 @@ const Question = ({ question, answers }) => {
             />
 
           <div style={{display: postOption? "flex" : "none", gap:".5rem"}}>
-          <button  className="button" onClick={()=> setModalOpened(true)}>
+          <button  className="editDeleteButton" onClick={()=> setModalOpened(true)}>
               Edit
             </button>
-            <button style={{background: "red"}}  className="button" onClick={() => setDelModalOpened(true)}>
+            <button  className="editDeleteButton" onClick={() => setDelModalOpened(true)}>
               delete
             </button>
           </div>

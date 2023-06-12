@@ -12,6 +12,16 @@ export const updateUser=(id, formData)=> async(dispatch)=> {
         dispatch({type: "UPDATING_FAIL"})
     }
 }
+export const updateUserActiveStatus = (adminId, userData) => async(dispatch) => {
+    dispatch({type: "USER_STATUS_UPDATING_START"})
+    try{
+        const {data} = await UserApi.updateUserStatusByAdmin(adminId, userData);
+        dispatch({type: "USER_STATUS_UPDATING_SUCCESS", data: data})
+    }   
+    catch(error){
+        dispatch({type: "USER_STATUS_UPDATING__FAIL"})
+    }
+}
 
 
 export const followUser = (id, data)=> async(dispatch)=> {

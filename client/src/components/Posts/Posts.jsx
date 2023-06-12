@@ -4,6 +4,8 @@ import Post from "../Post/Post";
 import { useSelector, useDispatch } from "react-redux";
 import "./Posts.css";
 import { useParams } from "react-router-dom";
+import { getAllComments } from "../../actions/CommentAction";
+import { getAllLostAndFounds } from "../../actions/LostAndFoundActions";
 
 const Posts = ({location}) => {
   const params = useParams()
@@ -12,6 +14,12 @@ const Posts = ({location}) => {
   let { posts, loading } = useSelector((state) => state.postReducer);
   useEffect(() => {
     dispatch(getTimelinePosts(user._id));
+  }, []);
+  useEffect(() => {
+    dispatch(getAllComments());
+  }, []);
+  useEffect(() => {
+    dispatch(getAllLostAndFounds());
   }, []);
   if(!posts) return 'No Posts';
   if(params.id) posts = posts.filter((post)=> post.userId===params.id)

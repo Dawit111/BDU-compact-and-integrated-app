@@ -58,21 +58,33 @@ const InfoCard = ({profileUserData}) => {
       <div className="info">
         {/* */}
         <span>
-          <b>Status </b>
+          <b>Faculty: </b>
         </span>
-        <span>{profileUser?.relationship}</span>
+        <span>{profileUser?.faculty}</span>
       </div>
       <div className="info">
         <span>
-          <b>Lives in </b>
+          <b>Department: </b>
         </span>
-        <span>{profileUser?.livesIn}</span>
+        <span>{profileUser?.department}</span>
       </div>
       <div className="info">
         <span>
-          <b>Works at </b>
+          <b>Year Of Study: </b>
+        </span>
+        <span>{profileUser?.yearOfStudy}</span>
+      </div>
+      <div className="info">
+        <span>
+          <b>Works at: </b>
         </span>
         <span>{profileUser?.worksAt}</span>
+      </div>
+      <div className="info">
+        <span>
+          <b>Role: </b>
+        </span>
+        <span>{profileUser?.isAdmin? "Adminstrator":profileUser?.isPsychiatrist?"Psychiatrist" : ""}</span>
       </div>
 
      {user._id ===profileUserId ? (<button className="button logout-button" onClick={handleLogOut}>Log Out</button>) : ""}

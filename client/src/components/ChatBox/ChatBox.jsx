@@ -143,7 +143,7 @@ useEffect(()=> {
             </div>
             {/* chat-sender */}
             <div className="chat-sender">
-              <div onClick={() => imageRef.current.click()}>+</div>
+              {/* <div onClick={() => imageRef.current.click()}>+</div> */}
               <InputEmoji
                 value={newMessage}
                 onChange={handleChange}

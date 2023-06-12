@@ -7,5 +7,6 @@ import qaReducer from "./QaReducer";
 import advertReducer from "./AdvertReducer";
 import lfReducer from "./LfReducer";
 import usersReducer from "./UsersReducer";
+import commentReducer from "./CommentReducer";
 
-export const reducers = combineReducers({authReducer,postReducer, chatReducer, qaReducer, advertReducer, lfReducer, usersReducer})
+export const reducers = combineReducers({authReducer,postReducer, chatReducer, qaReducer, advertReducer, lfReducer, usersReducer, commentReducer})

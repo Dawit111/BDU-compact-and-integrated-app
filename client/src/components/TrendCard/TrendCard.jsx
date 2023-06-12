@@ -1,17 +1,20 @@
 import React from 'react'
 import './TrendCard.css'
 import {TrendData} from '../../Data/TrendData.js'
+import { useSelector } from 'react-redux';
 const TrendCard = () => {
+    let { lostAndFounds, loading } = useSelector((state) => state.lfReducer);
+    lostAndFounds = lostAndFounds?.filter((lf)=> lf.status==="unSolved")
   return (
    <div className="TrendCard">
-       <h3>Trends for your</h3>
+       <h3>Lost or Found Things</h3>
 
 
-       {TrendData.map((trend, id)=>{
+       {lostAndFounds?.map((data, id)=>{
             return(
                 <div className="trend" key={id}>
-                    <span>#{trend.name}</span>
-                    <span>{trend.shares}k shares</span>
+                    {/* <span>#{data.name}</span> */}
+                    <span># {data?.lostAndFoundText}</span>
                 </div>
             )
        })}

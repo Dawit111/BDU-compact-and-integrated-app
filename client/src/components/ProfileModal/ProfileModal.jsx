@@ -97,42 +97,42 @@ const ProfileModal = ({ modalOpened, setModalOpened, data }) => {
 
         <div>
           <input
+            value={formData.faculty}
+            onChange={handleChange}
+            type="text"
+            className="infoInput"
+            placeholder="Faculty"
+            name="faculty"
+          />
+        </div>
+
+        <div>
+          <input
+            value={formData.yearOfStudy}
+            onChange={handleChange}
+            type="text"
+            placeholder="Year of Study. eg: 1st year"
+            name="yearOfStudy"
+            className="infoInput"
+          />
+          <input
+            value={formData.department}
+            onChange={handleChange}
+            type="text"
+            placeholder="Department"
+            name="department"
+            className="infoInput"
+          />
+        </div>
+
+        <div>
+          <input
             value={formData.worksAt}
             onChange={handleChange}
             type="text"
             placeholder="Works at"
             name="worksAt"
             className="infoInput"
-          />
-        </div>
-
-        <div>
-          <input
-            value={formData.livesIn}
-            onChange={handleChange}
-            type="text"
-            placeholder="Lives in"
-            name="livesIn"
-            className="infoInput"
-          />
-          <input
-            value={formData.country}
-            onChange={handleChange}
-            type="text"
-            placeholder="Country"
-            name="country"
-            className="infoInput"
-          />
-        </div>
-
-        <div>
-          <input
-            value={formData.relationship}
-            onChange={handleChange}
-            type="text"
-            className="infoInput"
-            placeholder="Relationship status"
-            name="relationship"
           />
         </div>
 
