@@ -33,7 +33,7 @@
     justify-content: center;
 }
 
-.name>span:nth-of-type(1){
+.name>Link>span:nth-of-type(1){
     font-weight: bold;
 }
 

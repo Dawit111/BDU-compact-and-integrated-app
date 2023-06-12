@@ -37,6 +37,10 @@ const Post = ({ data }) => {
     <div className="Post">
       <div className="detail">
         <div>
+        <Link
+              to={`/profile/${postOwner._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
           <img
             src={
               publicFolder + postOwner.profilePicture
@@ -46,15 +50,23 @@ const Post = ({ data }) => {
             alt="profile"
             className="followerImage"
           />
+          </Link>
           <div className="name">
             <Link
               to={`/profile/${postOwner._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
-            >
+            ><div>
               <span title="click to go to user profile">
                 @{postOwner.username}
               </span>
-            </Link>
+            </div></Link>
+              <div>
+                <span style={{ color: "var(--gray)", fontSize: "12px" }} title="click to go to user profile">
+                {postOwner.isAdmin?"Adminstrator":postOwner.isPsychiatrist==="yes"? "Psychiatrist":postOwner.department?postOwner.department:""}
+              </span> 
+              </div>
+             
+            
           </div>
         </div>
         {params.id === user._id && (

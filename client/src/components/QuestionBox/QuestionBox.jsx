@@ -43,6 +43,10 @@ const Question = ({ question, answers }) => {
       <div className="questionText">
         <div className="detail">
           <div>
+          <Link
+              to={`/profile/${question?.questionOwnerData[0]._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
              <img
             src={
               publicFolder + question.questionOwnerData[0].profilePicture
@@ -52,14 +56,30 @@ const Question = ({ question, answers }) => {
             alt="Profile"
             className="followerImage"
             style={{ width: "50px", height: "50px" }}
-          />
+          /></Link>
           <div className="name" style={{ fontSize: "0.9rem" }}>
-          <Link
+            <div>
+            <Link
               to={`/profile/${question?.questionOwnerData[0]._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
             <span title="click to go to user profile">@{question.questionOwnerData[0].username}</span>  
-          </Link>
+          </Link>  
+            </div>
+          <div>
+          <span
+            style={{ color: "var(--gray)", fontSize: "12px" }}
+            title="click to go to user profile"
+          >
+            {question.questionOwnerData[0].isAdmin
+              ? "Adminstrator"
+              : question.questionOwnerData[0].isPsychiatrist === "yes"
+              ? "Psychiatrist"
+              : question.questionOwnerData[0].department
+              ? question.questionOwnerData[0].department
+              : ""}
+          </span>
+          </div>
           </div>
           </div>
          

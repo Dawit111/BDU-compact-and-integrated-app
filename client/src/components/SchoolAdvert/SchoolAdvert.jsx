@@ -24,6 +24,10 @@ const SchoolAdvert = ({ data }) => {
     <div className="SchoolAdvert">
       <div className="detail">
         <div>
+        <Link
+              to={`/profile/${data?.creatorData[0]._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
           <img
             src={
               publicFolder + data.creatorData[0].profilePicture ?
@@ -32,14 +36,31 @@ const SchoolAdvert = ({ data }) => {
             }
             alt="profile"
             className="followerImage"
-          />
+          /></Link>
           <div className="name">
-          <Link
+            <div>
+             <Link
               to={`/profile/${data?.creatorData[0]._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
             <span title="click to go to user profile">@{data?.creatorData[0].username}</span>  
-          </Link>
+          </Link> 
+            </div>
+            <div>
+            <span
+            style={{ color: "var(--gray)", fontSize: "12px" }}
+            title="click to go to user profile"
+          >
+            {data?.creatorData[0].isAdmin
+              ? "Adminstrator"
+              : data?.creatorData[0].isPsychiatrist === "yes"
+              ? "Psychiatrist"
+              : data?.creatorData[0].department
+              ? data?.creatorData[0].department
+              : ""}
+          </span>
+            </div>
+          
           </div>
         </div>
         {user?.isAdmin && (

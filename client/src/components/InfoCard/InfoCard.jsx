@@ -84,7 +84,7 @@ const InfoCard = ({profileUserData}) => {
         <span>
           <b>Role: </b>
         </span>
-        <span>{profileUser?.isAdmin? "Adminstrator":profileUser?.isPsychiatrist?"Psychiatrist" : ""}</span>
+        <span>{profileUser?.isAdmin? "Adminstrator":profileUser?.isPsychiatrist==="yes"?"Psychiatrist" : ""}</span>
       </div>
 
      {user._id ===profileUserId ? (<button className="button logout-button" onClick={handleLogOut}>Log Out</button>) : ""}

@@ -87,7 +87,35 @@ export const updateUserActiveStatus = async (req, res) => {
         process.env.JWTKEY,
         { expiresIn: "24h" }
       );
-      console.log({user, token})
+      //console.log({user, token})
+      res.status(200).json({user, token});
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  } else {
+    res
+      .status(403)
+      .json("Access Denied! You are not an admin .");
+  }
+}
+
+//update user isPsychiatric status by admin
+export const updatePsychiatricStatus = async (req, res) => {
+  const adminId = req.params.adminId;
+  const { _id } = req.body;
+  const adminPerson = await UserModel.findById(adminId);
+  if (adminPerson.isAdmin) {
+    try {
+      // have to change this
+      const user = await UserModel.findByIdAndUpdate(_id, req.body, {
+        new: true,
+      });
+      const token = jwt.sign(
+        { username: user.username, id: user._id },
+        process.env.JWTKEY,
+        { expiresIn: "24h" }
+      );
+     // console.log({user, token})
       res.status(200).json({user, token});
     } catch (error) {
       res.status(500).json(error);

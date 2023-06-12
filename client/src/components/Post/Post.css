@@ -63,6 +63,10 @@
     max-width: 100%;
 }
 
+.name {
+    display: flex;
+    flex-direction: column;
+}
 .name:hover {
     color: blue;
 }

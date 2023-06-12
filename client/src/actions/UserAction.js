@@ -22,6 +22,14 @@ export const updateUserActiveStatus = (adminId, userData) => async(dispatch) => 
         dispatch({type: "USER_STATUS_UPDATING__FAIL"})
     }
 }
+export const updateIsPsychiatristStatus = (adminId, userData) => async(dispatch) => {
+    try{
+        await UserApi.updateIsPsychiatristStatusByAdmin(adminId, userData);
+    }   
+    catch(error){
+      console.log(error);
+    }
+}
 
 
 export const followUser = (id, data)=> async(dispatch)=> {

@@ -2,6 +2,7 @@ const qaReducer = (
   state = {
     questions: null,
     answers: null,
+    categories: null,
     loading: false,
     error: false,
   },
@@ -71,6 +72,14 @@ const qaReducer = (
       answers[answerIndex] = action.data;
       return { ...state, answers, loading: false };
     case "ANSWER_UPDATE_FAIL":
+      return { ...state, loading: false, error: true };
+
+    // belongs to AdminDashboard.jsx and discussion.jsx
+    case "CATEGORY_FETCH_START":
+      return { ...state, loading: true, error: false };
+    case "CATEGORY_FETCH_SUCCESS":
+      return { ...state, categories: action.data, loading: false, error: false };
+    case "CATEGORY_FETCH_FAIL":
       return { ...state, loading: false, error: true };
     default:
       return state;

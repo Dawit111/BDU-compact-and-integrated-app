@@ -23,8 +23,8 @@ const UserSchema = mongoose.Schema(
       default: false,
     },
     isPsychiatrist: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: "no",
     },
     activeStatus: {
       type: String,

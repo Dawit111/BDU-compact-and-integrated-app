@@ -65,3 +65,14 @@ export const updateAnswer = (ansId,data) => async (dispatch) => {
     dispatch({ type: "ANSWER_UPDATE_FAIL" });
   }
 };
+
+export const getAllCategories = () => async (dispatch) => {
+  dispatch({ type: "CATEGORY_FETCH_START" });
+  try {
+    const { data } = await QaApi.getAllCategories();
+    dispatch({ type: "CATEGORY_FETCH_SUCCESS", data:data });
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: "CATEGORY_FETCH_FAIL" });
+  }
+}

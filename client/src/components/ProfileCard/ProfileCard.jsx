@@ -27,7 +27,7 @@ const ProfileCard = ({ profUserData }) => {
     //after 800 seconds of creating chat this will navigate to chat page.
     setTimeout(() => {
       navigate("/chat");
-    }, 800) 
+    }, 200) 
   };
 
   useEffect(() => {

@@ -84,6 +84,10 @@ const Answer = ({ answer, viewAnsClicked}) => {
     >
       <div className="detail">
         <div>
+        <Link
+              to={`/profile/${answer?.answerOwnerData[0]._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
           <img
           src={
             publicFolder + answer?.answerOwnerData[0].profilePicture
@@ -93,14 +97,31 @@ const Answer = ({ answer, viewAnsClicked}) => {
           alt="Profile"
           className="followerImage"
           style={{ width: "40px", height: "40px" }}
-        />
+        /></Link>
         <div className="name" style={{ fontSize: "0.9rem" }}>
-        <Link
+          <div>
+           <Link
               to={`/profile/${answer?.answerOwnerData[0]._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
             <span title="click to go to user profile">@{answer?.answerOwnerData[0].username}</span>  
-          </Link>
+          </Link>  
+          </div>
+          <div>
+          <span
+            style={{ color: "var(--gray)", fontSize: "12px" }}
+            title="click to go to user profile"
+          >
+            {answer?.answerOwnerData[0].isAdmin
+              ? "Adminstrator"
+              : answer?.answerOwnerData[0].isPsychiatrist === "yes"
+              ? "Psychiatrist"
+              : answer?.answerOwnerData[0].department
+              ? answer?.answerOwnerData[0].department
+              : ""}
+          </span>
+          </div>
+       
         </div>
         </div>
         {user?._id === answer.userId && (

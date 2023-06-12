@@ -16,6 +16,7 @@ export const getAllQuestions = () => API.get('/discussion/question/getAll')
 export const createQuestion = (newQuestion) => API.post('/discussion/question/create',newQuestion)
 export const deleteQuestion = (qId, userId) => API.delete(`/discussion/question/${qId}/${userId}/delete`)
 export const updateQuestion = (qId, data) => API.put(`/discussion/question/${qId}/update`, data)
+export const createCategory = (category) => API.post('/discussion/category/create', category)
 
 //for answers
 export const getAllAnswers = () => API.get('/discussion/answer/getAll')

@@ -34,6 +34,10 @@ const LostAndFound = ({ data }) => {
     <div className="LostAndFound">
       <div className="detail">
         <div>
+        <Link
+              to={`/profile/${data?.lfOwnerData[0]._id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
           <img
             src={
               publicFolder + data.lfOwnerData[0].profilePicture ?
@@ -42,14 +46,31 @@ const LostAndFound = ({ data }) => {
             }
             alt="profile"
             className="followerImage"
-          />
+          /></Link>
           <div className="name">
-          <Link
+            <div>
+             <Link
               to={`/profile/${data?.lfOwnerData[0]._id}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
             <span title="click to go to user profile">@{data?.lfOwnerData[0].username}</span>  
-          </Link>
+          </Link> 
+            </div>
+            <div>
+               <span
+            style={{ color: "var(--gray)", fontSize: "12px" }}
+            title="click to go to user profile"
+          >
+            {data?.lfOwnerData[0].isAdmin
+              ? "Adminstrator"
+              : data?.lfOwnerData[0].isPsychiatrist === "yes"
+              ? "Psychiatrist"
+              : data?.lfOwnerData[0].department
+              ? data?.lfOwnerData[0].department
+              : ""}
+          </span>
+            </div>
+          
           </div>
         </div>
         <div style={{background: data?.status === "solved" ? "gray": "orange", borderRadius: ".3rem", padding: ".2rem"}} className="status">

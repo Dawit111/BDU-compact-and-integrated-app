@@ -7,17 +7,15 @@ import Category from "../../components/Category/Category";
 import DiscussionBox from "../../components/DiscussionBox/DiscussionBox";
 import NavBar from "../../components/NavBar/NavBar";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories } from "../../api/QARequests";
+import { getAllCategories } from "../../actions/QAActions";
 
 const Discussion = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.authReducer.authData);
-  const [categories, setCategories] = useState([]);
+  const { categories  } = useSelector((state) => state.qaReducer);
   useEffect(() => {
-    const getCategories = async () => {
+    const getCategories = () => {
       try {
-        const { data } = await getAllCategories();
-        setCategories(data);
+       dispatch(getAllCategories());
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +63,7 @@ const Discussion = () => {
             <hr style={{ width: "100%", border: "0.1px solid gray" }} />
 
             <div className="Discussion-list">
-              {categories.map((category, id) => (
+              {categories?.map((category, id) => (
                 <div onClick={() => setCurrentCategory(category)}>
                   <Category key={id} data={category} minimize={minimize} />
                 </div>

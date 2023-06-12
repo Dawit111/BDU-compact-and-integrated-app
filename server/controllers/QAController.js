@@ -192,11 +192,17 @@ export const getAllAnswers = async (req, res) => {
 //Category controllers
 
 export const createCategory = async (req, res) => {
-  console.log("in the create category");
   const newCategory = new CategoryModel(req.body);
+  const {category} = req.body
   try {
-    await newCategory.save();
+    const oldCategory = await CategoryModel.findOne({category})
+    if(oldCategory){
+      res.status(400).json("category already exists")
+    } else {
+      await newCategory.save();
     res.status(200).json(newCategory);
+    }
+    
   } catch (error) {
     res.status(500).json(error);
   }
@@ -204,7 +210,7 @@ export const createCategory = async (req, res) => {
 
 export const getAllCategories = async (req, res) => {
   try {
-    const allCategories = await CategoryModel.find();
+    const allCategories = await CategoryModel.find().sort({_id:-1});
     res.status(200).json(allCategories);
   } catch (error) {
     res.status(500).json(error);

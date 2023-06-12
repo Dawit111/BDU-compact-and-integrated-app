@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllUsers, updateUserActiveStatus } from "../../actions/UserAction";
+import { getAllUsers, updateIsPsychiatristStatus, updateUserActiveStatus } from "../../actions/UserAction";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 
 function Table({ data }) {
@@ -28,7 +28,13 @@ function Table({ data }) {
   const currentRows = filteredData?.slice(indexOfFirstRow, indexOfLastRow);
 
   const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER;
-
+  function handleIsPsychiatrist(item,e) {
+    item.isPsychiatrist = e.target.value;
+    const userData = item;
+    const adminId = user._id;
+    dispatch(updateIsPsychiatristStatus(adminId, userData));
+    dispatch(getAllUsers());
+  }
   function handleStatusUpdate(item,e) {
     item.activeStatus = e.target.value;
     const userData = item;
@@ -69,6 +75,7 @@ function Table({ data }) {
             <th>Department</th>
             <th>Works At</th>
             <th>Status</th>
+            <th>Psychiatrist</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -100,6 +107,12 @@ function Table({ data }) {
                 <select value={item.activeStatus} onChange={(e) => handleStatusUpdate(item,e)}>
                   <option value={"active"}>Active</option>
                   <option value={"inactive"}>Suspended</option>
+                </select>
+              </td>
+              <td>
+                <select value={item.isPsychiatrist} onChange={(e) => handleIsPsychiatrist(item,e)}>
+                  <option value={"yes"}>yes</option>
+                  <option value={"no"}>no</option>
                 </select>
               </td>
               <td>
